@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class ItemServiceImpl implements ItemService {
 
-   private final  InMemoryItemStorage inMemoryItemStorage;
+    private final InMemoryItemStorage inMemoryItemStorage;
 
     public ItemServiceImpl(InMemoryItemStorage inMemoryItemStorage) {
         this.inMemoryItemStorage = inMemoryItemStorage;

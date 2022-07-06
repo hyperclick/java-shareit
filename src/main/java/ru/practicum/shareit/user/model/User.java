@@ -8,7 +8,6 @@ import lombok.Data;
 public class User {
     int id;
     String name;
-    //    @Email
     String email;
 
     public User fillEmpty(User u) {

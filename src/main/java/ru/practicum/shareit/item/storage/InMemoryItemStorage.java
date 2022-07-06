@@ -41,7 +41,7 @@ public class InMemoryItemStorage {
         }
         ItemDto s = null;
         for (Item i : items.values()) {
-            if (i.getAvailable() == false) {
+            if (!i.getAvailable()) {
                 continue;
             }
             if (i.getName() != null) {
@@ -82,9 +82,6 @@ public class InMemoryItemStorage {
     }
 
     private void validate(Item item) {
-//        if (item.getOwner() == null) {
-//            throw new ValidationException(HttpStatus.INTERNAL_SERVER_ERROR, "Item has no owner");
-//        }
         if (item.getAvailable() == null) {
             throw new ValidationException(HttpStatus.BAD_REQUEST, "Item isn't available");
         }

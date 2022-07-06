@@ -35,9 +35,7 @@ public class UserController {
     }
 
     @PostMapping
-    private UserDto addUser(@RequestBody UserDto user) { /* @RequestBody означает, что значение аргумента нужно взять
-    из тела запроса. При этом объект, который пришёл в теле запроса, например, в виде JSON, будет автоматически
-     сконвертирован в Java-объект. */
+    private UserDto addUser(@RequestBody UserDto user) {
         var s = inMemoryUserStorage.addUser(UserMapper.toUser(user));
         return UserMapper.toUserDto(s);
     }
@@ -54,8 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    private void deleteUser(@PathVariable int id) { /* С помощью @PathVariable Spring узнаёт, какая часть URL-пути
-    будет автоматически подтягиваться в аргумент метода, к которому применена эта аннотация.*/
+    private void deleteUser(@PathVariable int id) {
         try {
             inMemoryUserStorage.deleteUser(id);
         } catch (NoSuchElementException e) {

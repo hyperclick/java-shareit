@@ -59,7 +59,7 @@ public class InMemoryUserStorage {
     private void validate(User user) {
         if (user.getEmail() == null || !(user.getEmail().contains("@"))) {
             throw new ValidationException(HttpStatus.BAD_REQUEST, "The user email must include @, should be without spaces " +
-                    "and shouldn't be blank"); //почему имя исключения включает путь?
+                    "and shouldn't be blank");
         }
         if (user.getName() == null || user.getName().contains(" ") || user.getName().equals("")) {
             throw new ValidationException(HttpStatus.BAD_REQUEST, "The user name can't be empty or contains spaces");
