@@ -5,30 +5,37 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.storage.InMemoryItemStorage;
 import ru.practicum.shareit.storage.InMemoryUserStorage;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/items")
 @Slf4j
 @AllArgsConstructor
-public class ItemController2 { //почему без 2 не запускается?
+public class ItemController {
     InMemoryItemStorage inMemoryItemStorage;
     InMemoryUserStorage inMemoryUserStorage;
 
     @GetMapping
-    private Collection<ItemDto> getAllItems() {
-        return inMemoryItemStorage.getAllItems();
+    private Collection<ItemDto> getAllUserItems(@RequestHeader("X-Sharer-User-Id") int userId) {
+        return inMemoryItemStorage
+                .getAllItems()
+                .stream()
+                .filter(i -> i.getOwner().getId() == userId)
+                .map(ItemMapper::toItemDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     private ItemDto getItem(@PathVariable("id") int id) {
         try {
-            return inMemoryItemStorage.getById(id);
+            return ItemMapper.toItemDto(inMemoryItemStorage.getById(id));
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -45,26 +52,26 @@ public class ItemController2 { //почему без 2 не запускаетс
 //        }
 //    }
 
-    @GetMapping("/{str}")//как замапить этот метод?
-    private ItemDto searchItem(@PathVariable String str) {
-        return inMemoryItemStorage.getBySearch(str);
+    @GetMapping("/search")
+    private List<ItemDto> searchItem(@RequestParam String text) {
+        return inMemoryItemStorage.getBySearch(text).stream().map(ItemMapper::toItemDto).collect(Collectors.toList());
     }
 
     @PostMapping
-    private ItemDto addItem(@RequestBody ItemDto item) {
+    private ItemDto addItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int id) {
         try {
-            inMemoryItemStorage.addItem(item);
-            return item;
+            return ItemMapper.toItemDto(inMemoryItemStorage.addItem(itemDto, inMemoryUserStorage.getById(id)));
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PatchMapping
-    private ItemDto updateItem(@RequestBody ItemDto item) {
+    @PatchMapping("/{itemId}")
+    private ItemDto updateItem(@PathVariable int itemId, @RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId) {
         try {
-            inMemoryItemStorage.updateItem(item);
-            return item;
+            inMemoryItemStorage.updateItem(itemId, itemDto, inMemoryUserStorage.getById(userId));
+            var item = inMemoryItemStorage.getById(itemId);
+            return ItemMapper.toItemDto(item);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

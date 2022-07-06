@@ -1,10 +1,10 @@
 package ru.practicum.shareit.user.dto;
 
 import lombok.AllArgsConstructor;
-
-import java.util.UUID;
+import lombok.Data;
 
 @AllArgsConstructor
+@Data
 public class UserDto {
     int id;
     String name;

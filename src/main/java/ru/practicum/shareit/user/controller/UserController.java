@@ -6,10 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.storage.InMemoryUserStorage;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserMapper;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -19,31 +21,33 @@ public class UserController {
     InMemoryUserStorage inMemoryUserStorage;
 
     @GetMapping
-    private Collection<User> getAllUsers() {
-        return inMemoryUserStorage.getAllUsers();
+    private Collection<UserDto> getAllUsers() {
+        return inMemoryUserStorage.getAllUsers().stream().map(UserMapper::toUserDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    private User getUser(@PathVariable("id") int id) {
+    private UserDto getUser(@PathVariable("id") int id) {
         try {
-            return inMemoryUserStorage.getById(id);
+            return UserMapper.toUserDto(inMemoryUserStorage.getById(id));
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    private User addUser(@RequestBody User user) { /* @RequestBody означает, что значение аргумента нужно взять
+    private UserDto addUser(@RequestBody UserDto user) { /* @RequestBody означает, что значение аргумента нужно взять
     из тела запроса. При этом объект, который пришёл в теле запроса, например, в виде JSON, будет автоматически
      сконвертирован в Java-объект. */
-        return inMemoryUserStorage.addUser(user);
+        var s = inMemoryUserStorage.addUser(UserMapper.toUser(user));
+        return UserMapper.toUserDto(s);
     }
 
-    @PutMapping
-    private User updateUser(@RequestBody User user) {
+    @PatchMapping("/{id}")
+    private UserDto updateUser(@RequestBody UserDto user, @PathVariable int id) {
         try {
-            inMemoryUserStorage.updateUser(user);
-            return user;
+            var u = UserMapper.toUser(user);
+            inMemoryUserStorage.updateUser(u, id);
+            return UserMapper.toUserDto(inMemoryUserStorage.getById(id));
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

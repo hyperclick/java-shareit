@@ -6,7 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @ResponseBody()
 public class ValidationException extends ResponseStatusException {
-    public ValidationException(String e) {
-        super(HttpStatus.BAD_REQUEST, e);
+    public ValidationException(HttpStatus httpStatus, String e) {
+        super(httpStatus, e);
     }
 }
