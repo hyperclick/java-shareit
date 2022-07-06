@@ -1,4 +1,4 @@
-package ru.practicum.shareit.storage;
+package ru.practicum.shareit.item.storage;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

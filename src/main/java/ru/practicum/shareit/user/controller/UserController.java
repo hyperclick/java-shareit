@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.practicum.shareit.storage.InMemoryUserStorage;
+import ru.practicum.shareit.user.storage.InMemoryUserStorage;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.dto.UserMapper;
+import ru.practicum.shareit.user.UserMapper;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
