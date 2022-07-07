@@ -6,8 +6,8 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class ItemDto {
-    int id;
-    String name;
-    String description;
-    Boolean available;
+    private int id;
+    private String name;
+    private String description;
+    private Boolean available;
 }

@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class User {
-    int id;
-    String name;
-    String email;
+    private int id;
+    private String name;
+    private String email;
 
     public User fillEmpty(User u) {
         if (id == 0) {

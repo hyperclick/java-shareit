@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @AllArgsConstructor
 public class ItemController {
-    InMemoryUserStorage inMemoryUserStorage;
+    private InMemoryUserStorage inMemoryUserStorage;
     private final ItemService itemService;
 
     @GetMapping

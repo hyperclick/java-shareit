@@ -39,19 +39,18 @@ public class InMemoryItemStorage {
         if (str.length() == 0) {
             return result;
         }
-        ItemDto s = null;
-        for (Item i : items.values()) {
-            if (!i.getAvailable()) {
+        for (Item newItem : items.values()) {
+            if (!newItem.getAvailable()) {
                 continue;
             }
-            if (i.getName() != null) {
-                if (i.getName().toUpperCase().contains(str)) {
-                    result.add(i);
+            if (newItem.getName() != null) {
+                if (newItem.getName().toUpperCase().contains(str)) {
+                    result.add(newItem);
                     continue;
                 }
             }
-            if (i.getDescription() != null && i.getDescription().toUpperCase().contains(str)) {
-                result.add(i);
+            if (newItem.getDescription() != null && newItem.getDescription().toUpperCase().contains(str)) {
+                result.add(newItem);
             }
         }
         return result;

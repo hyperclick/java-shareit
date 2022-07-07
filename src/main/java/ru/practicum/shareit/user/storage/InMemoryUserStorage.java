@@ -44,8 +44,8 @@ public class InMemoryUserStorage {
     }
 
     public void updateUser(User user, int id) {
-        var u = users.get(id);
-        user = user.fillEmpty(u);
+        var newUser = users.get(id);
+        user = user.fillEmpty(newUser);
         validate(user);
         users.put(id, user);
         log.info("users {} has been updated", users.toString().toUpperCase());

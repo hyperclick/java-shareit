@@ -1,7 +1,7 @@
 package ru.practicum.shareit.requests.dto;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
+/**
+ * // TODO .
+ */
 public class ItemRequestDto {
 }

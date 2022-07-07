@@ -8,12 +8,12 @@ import ru.practicum.shareit.user.model.User;
 @Data
 @AllArgsConstructor
 public class Item {
-    int id;
-    String name;
-    String description;
-    Boolean available;
-    User owner;
-    ItemRequest request;
+    private int id;
+    private String name;
+    private String description;
+    private Boolean available;
+    private User owner;
+    private ItemRequest request;
 
     public Item fillEmpty(Item i) {
         if (id == 0) {

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 public class UserController {
-    InMemoryUserStorage inMemoryUserStorage;
+    private InMemoryUserStorage inMemoryUserStorage;
 
     @GetMapping
     private Collection<UserDto> getAllUsers() {
