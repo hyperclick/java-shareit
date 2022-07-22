@@ -20,4 +20,17 @@ public class ItemMapper {
         return new Item(-1, itemDto.getName(), itemDto.getDescription(), itemDto.getAvailable(),
                 owner, null);
     }
+
+    public static Item copyNotEmpty(Item item, ItemDto itemDto) {
+        if (itemDto.getAvailable() != null) {
+            item.setAvailable(itemDto.getAvailable());
+        }
+        if (itemDto.getName() != null) {
+            item.setName(itemDto.getName());
+        }
+        if (itemDto.getDescription() != null) {
+            item.setDescription(itemDto.getDescription());
+        }
+        return item;
+    }
 }

@@ -2,12 +2,25 @@ package ru.practicum.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(columnDefinition = "serial")
     private int id;
+
+//    @Column
     private String name;
+//    @Column
     private String email;
 
     public User fillEmpty(User u) {
@@ -15,10 +28,10 @@ public class User {
             id = u.id;
         }
         if (name == null) {
-            name = u.name;
+            name = u.getName();
         }
         if (email == null) {
-            email = u.email;
+            email = u.getEmail();
         }
         return this;
     }

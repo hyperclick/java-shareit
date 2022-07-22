@@ -2,17 +2,30 @@ package ru.practicum.item.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.practicum.requests.ItemRequest;
+import lombok.NoArgsConstructor;
+import ru.practicum.requests.model.ItemRequest;
 import ru.practicum.user.model.User;
 
+import javax.persistence.*;
+
 @Data
+@Entity
+@NoArgsConstructor
+@Table(name = "items")
 @AllArgsConstructor
 public class Item {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String description;
     private Boolean available;
+    @OneToOne
+    @JoinColumn(name = "owner_id")
     private User owner;
+    @OneToOne
+    @JoinColumn(name = "request_id")
     private ItemRequest request;
 
     public Item fillEmpty(Item i) {

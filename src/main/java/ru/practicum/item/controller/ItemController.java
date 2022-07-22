@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.item.dto.ItemDto;
 import ru.practicum.item.service.ItemService;
-import ru.practicum.user.storage.InMemoryUserStorage;
+import ru.practicum.user.storage.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @AllArgsConstructor
 public class ItemController {
-    private InMemoryUserStorage inMemoryUserStorage;
+    private final UserRepository userRepository;
     private final ItemService itemService;
 
     @GetMapping
@@ -28,11 +28,8 @@ public class ItemController {
 
     @GetMapping("/{id}")
     private ItemDto getItem(@PathVariable("id") int id) {
-        try {
+
             return itemService.getById(id);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
     }
 
     @GetMapping("/search")
@@ -43,7 +40,7 @@ public class ItemController {
     @PostMapping
     private ItemDto addItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId) {
         try {
-            return itemService.addItem(itemDto, inMemoryUserStorage.getById(userId));
+            return itemService.addItem(itemDto, userRepository.getReferenceById(userId));
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -52,7 +49,7 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     private ItemDto updateItem(@PathVariable int itemId, @RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId) {
         try {
-            return itemService.update(itemId, itemDto, inMemoryUserStorage.getById(userId));
+            return itemService.update(itemId, itemDto, userRepository.getReferenceById(userId));
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
