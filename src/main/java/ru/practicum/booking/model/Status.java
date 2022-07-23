@@ -1,4 +1,4 @@
-package ru.practicum.booking;
+package ru.practicum.booking.model;
 
 public enum Status {
     WAITING, APPROVED, REJECTED, CANCELED

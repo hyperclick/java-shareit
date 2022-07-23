@@ -18,10 +18,10 @@ public class ItemRequest {
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
-    String description;
+    private String description;
     @OneToOne
     @JoinColumn(name = "requester_id")
-    User requester;
-    LocalDate created;
+    private User requester;
+    private LocalDate created;
 
 }
