@@ -1,4 +1,4 @@
-package ru.practicum.booking.model;
+package ru.practicum.item.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,29 +7,28 @@ import ru.practicum.item.model.Item;
 import ru.practicum.user.model.User;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "bookings")
+@Table(name = "comments")
 @AllArgsConstructor
-public class Booking {
+public class Comment {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
-    private LocalDateTime start_date_time;
-    private LocalDateTime end_date_time;
+    String text;
+
     @OneToOne
     @JoinColumn(name = "item_id")
     private Item item;
-    @OneToOne
-    @JoinColumn(name = "booker_id")
-    private User booker;
 
-    private Boolean approved;
-    private Boolean canceled;
+    @OneToOne
+    @JoinColumn(name = "author_id")
+    private User author;
+
+    LocalDateTime created;
 }

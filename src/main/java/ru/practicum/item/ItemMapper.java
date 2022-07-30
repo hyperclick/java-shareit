@@ -1,18 +1,36 @@
 package ru.practicum.item;
 
 import org.springframework.stereotype.Component;
+import ru.practicum.booking.BookingService;
+import ru.practicum.item.dto.ItemBookingDto;
 import ru.practicum.item.dto.ItemDto;
 import ru.practicum.item.model.Item;
+import ru.practicum.item.service.CommentsService;
 import ru.practicum.user.model.User;
 
 @Component
 public class ItemMapper {
-    public static ItemDto toItemDto(Item item) {
+    private final CommentsService commentsService;
+    private final BookingService bookingService;
+
+    public ItemMapper(CommentsService commentsService, BookingService bookingService) {
+        this.commentsService = commentsService;
+        this.bookingService = bookingService;
+    }
+
+    public ItemDto toItemDto(Item item) {
+        //next and last only for owners?
+        ItemBookingDto lastBooking = bookingService.getLastBooking(item.getId());
+        ItemBookingDto nextBooking = bookingService.getNextBooking(item.getId());
         return new ItemDto(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
-                item.getAvailable()
+                item.getAvailable(),
+                item.getOwner().getId(),
+                lastBooking,
+                nextBooking,
+                commentsService.getForItem(item.getId()).stream().map(CommentMapper::toDto).toList()
         );
     }
 

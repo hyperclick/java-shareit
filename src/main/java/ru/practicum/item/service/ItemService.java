@@ -2,6 +2,7 @@ package ru.practicum.item.service;
 
 
 import ru.practicum.item.dto.ItemDto;
+import ru.practicum.item.model.Item;
 import ru.practicum.user.model.User;
 
 import java.util.Collection;
@@ -12,11 +13,11 @@ public interface ItemService {
 
     Collection<ItemDto> getAllUserItems(int userId);
 
-    ItemDto getById(int id);
+    Item getById(int id);
 
     List<ItemDto> searchAvailable(String text);
 
     ItemDto addItem(ItemDto itemDto, User owner);
 
-    ItemDto update(int itemId, ItemDto itemDto, User owner);
+    Item update(int itemId, ItemDto itemDto, User owner);
 }
