@@ -1,5 +1,6 @@
 package ru.practicum.requests.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 public class ItemRequestDto {
     private Long id;
     String description;
-    Integer requester_id;
+    @JsonProperty("requester_id")
+    Integer requesterId;
     LocalDate created;
 }

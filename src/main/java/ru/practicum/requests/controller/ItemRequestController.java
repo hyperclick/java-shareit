@@ -22,7 +22,7 @@ public class ItemRequestController {
 
     @PostMapping
     public ItemRequestDto addRequest(@RequestBody ItemRequestDto dto) {
-        var s = itemRequestRepository.saveAndFlush(RequestMapper.toRequest(dto, userRepository.getReferenceById(dto.getRequester_id())));
+        var s = itemRequestRepository.saveAndFlush(RequestMapper.toRequest(dto, userRepository.getReferenceById(dto.getRequesterId())));
         return RequestMapper.toDto(s);
     }
 }

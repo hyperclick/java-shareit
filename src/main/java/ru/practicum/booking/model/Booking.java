@@ -7,7 +7,6 @@ import ru.practicum.item.model.Item;
 import ru.practicum.user.model.User;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,8 +20,10 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private LocalDateTime start_date_time;
-    private LocalDateTime end_date_time;
+    @Column(name = "start_date_time")
+    private LocalDateTime startDateTime;
+    @Column(name = "end_date_time")
+    private LocalDateTime endDateTime;
     @OneToOne
     @JoinColumn(name = "item_id")
     private Item item;

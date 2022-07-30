@@ -18,8 +18,8 @@ public class BookingMapper {
         model.setItem(item);
         model.setApproved(dto.getStatus() == Status.APPROVED);
         model.setCanceled(dto.getStatus() == Status.CANCELED);
-        model.setStart_date_time(dto.getStart_date_time());
-        model.setEnd_date_time(dto.getEnd_date_time());
+        model.setStartDateTime(dto.getStartDateTime());
+        model.setEndDateTime(dto.getEndDateTime());
         if (dto.getStatus() == Status.REJECTED) {
             model.setApproved(true);
             model.setCanceled(true);
@@ -30,8 +30,8 @@ public class BookingMapper {
     public static BookingDto toDto(Booking booking,  ItemMapper itemMapper) {
         return new BookingDto(
                 booking.getId(),
-                booking.getStart_date_time(),
-                booking.getEnd_date_time(),
+                booking.getStartDateTime(),
+                booking.getEndDateTime(),
                 itemMapper.toItemDto(booking.getItem()),
                 booking.getItem().getId(),
                 UserMapper.toUserDto(booking.getBooker()),

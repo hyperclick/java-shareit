@@ -40,7 +40,7 @@ public class ItemController {
     private ItemDto getItem(@PathVariable("id") int id, @RequestHeader("X-Sharer-User-Id") int userId) {
         var item = itemService.getById(id);
         var dto = itemMapper.toItemDto(item);
-        if (userId != item.getOwner().getId()){
+        if (userId != item.getOwner().getId()) {
             dto.setLastBooking(null);
             dto.setNextBooking(null);
         }
@@ -79,13 +79,13 @@ public class ItemController {
     }
 
     private void validate(Comment model) {
-        if (model.getText() == null || model.getText().trim().length()==0){
+        if (model.getText() == null || model.getText().trim().length() == 0) {
             throw new ValidationException(HttpStatus.BAD_REQUEST, "");
         }
 //        var bookings = bookingService.getAllStartedByBookerAndItem(model.getAuthor().getId(), model.getItem().getId(), Status.APPROVED);
         var bookings = bookingService.getAllStartedByBookerAndItem(model.getAuthor().getId(), model.getItem().getId(), true, false);
-        if (bookings.size()==0){
-            throw new ValidationException(HttpStatus.BAD_REQUEST,"");
+        if (bookings.size() == 0) {
+            throw new ValidationException(HttpStatus.BAD_REQUEST, "");
         }
     }
 }

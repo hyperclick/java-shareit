@@ -8,13 +8,12 @@ import ru.practicum.user.model.User;
 import java.time.LocalDateTime;
 
 public class CommentMapper {
-    public static CommentDto toDto(Comment model){
+    public static CommentDto toDto(Comment model) {
         return new CommentDto(model.getId(), model.getAuthor().getName(), model.getText(), model.getCreated());
     }
 
     public static Comment toModel(CommentDto dto, Item item, User author) {
         var model = new Comment();
-//        model.setCreated(dto.getCreated);
         model.setCreated(LocalDateTime.now());
         model.setText(dto.getText());
         model.setItem(item);

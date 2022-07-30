@@ -2,7 +2,6 @@ package ru.practicum.item.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import ru.practicum.booking.BookingService;
 import ru.practicum.exception.ValidationException;
 import ru.practicum.item.ItemMapper;
 import ru.practicum.item.dto.ItemDto;
@@ -31,7 +30,7 @@ public class ItemServiceImpl implements ItemService {
                 .findAll()
                 .stream()
                 .filter(i -> i.getOwner().getId() == userId)
-                .map(i->itemMapper.toItemDto(i))
+                .map(i -> itemMapper.toItemDto(i))
                 .collect(Collectors.toList());
     }
 
@@ -40,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
         if (!itemRepository.existsById(id)) {
             throw new ValidationException(HttpStatus.NOT_FOUND, "");
         }
-        return itemRepository.getReferenceById(id) ;
+        return itemRepository.getReferenceById(id);
     }
 
     @Override

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.item.dto.ItemDto;
 import ru.practicum.user.dto.UserDto;
-
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -15,9 +14,9 @@ import java.time.LocalDateTime;
 public class BookingDto {
     private int id;
     @JsonProperty("start")
-    private LocalDateTime start_date_time;
+    private LocalDateTime startDateTime;
     @JsonProperty("end")
-    private LocalDateTime end_date_time;
+    private LocalDateTime endDateTime;
     private ItemDto item;
     private int itemId;
     private UserDto booker;
