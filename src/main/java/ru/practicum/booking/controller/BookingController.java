@@ -8,6 +8,7 @@ import ru.practicum.booking.dto.BookingDto;
 import ru.practicum.item.ItemMapper;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -38,7 +39,7 @@ public class BookingController {
         var r = bookingService.getAllByBooker(bookerId)
                 .stream()
                 .map(x->BookingMapper.toDto(x,itemMapper))
-                .toList();
+                .collect(Collectors.toList());
         return r;
     }
     @GetMapping("/owner")
@@ -46,7 +47,7 @@ public class BookingController {
         var r = bookingService.getAllByOwner(ownerId)
                 .stream()
                 .map(x->BookingMapper.toDto(x,itemMapper))
-                .toList();
+                .collect(Collectors.toList());
         return r;
     }
 }

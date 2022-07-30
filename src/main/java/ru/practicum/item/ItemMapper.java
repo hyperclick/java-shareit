@@ -8,6 +8,8 @@ import ru.practicum.item.model.Item;
 import ru.practicum.item.service.CommentsService;
 import ru.practicum.user.model.User;
 
+import java.util.stream.Collectors;
+
 @Component
 public class ItemMapper {
     private final CommentsService commentsService;
@@ -30,7 +32,7 @@ public class ItemMapper {
                 item.getOwner().getId(),
                 lastBooking,
                 nextBooking,
-                commentsService.getForItem(item.getId()).stream().map(CommentMapper::toDto).toList()
+                commentsService.getForItem(item.getId()).stream().map(CommentMapper::toDto).collect(Collectors.toList())
         );
     }
 

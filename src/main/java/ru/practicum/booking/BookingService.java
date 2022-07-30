@@ -12,6 +12,7 @@ import ru.practicum.user.storage.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class BookingService {
@@ -99,7 +100,7 @@ public class BookingService {
 //                .filter(Booking::getApproved)
 //                .sorted((a,b)->Integer.compare(b.getId(),a.getId()))
                 .sorted((a, b) -> b.getStart_date_time().compareTo(a.getStart_date_time()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Collection<Booking> getAllByOwner(int ownerId) {
@@ -112,7 +113,7 @@ public class BookingService {
 //                .sorted((a,b)->Integer.compare(b.getId(),a.getId()))
                 .sorted((a, b) -> b.getStart_date_time().compareTo(a.getStart_date_time()))
                 //.map(b->BookingMapper.toDto(b, itemMapper))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public ItemBookingDto getLastBooking(int itemId) {
@@ -151,6 +152,6 @@ public class BookingService {
                 .filter(b->b.getApproved()==approved)
                 .filter(b->b.getCanceled()==cancelled)
                 .filter(b->b.getStart_date_time().isBefore(LocalDateTime.now()))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

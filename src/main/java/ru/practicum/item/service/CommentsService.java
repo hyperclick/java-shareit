@@ -13,6 +13,7 @@ import ru.practicum.exception.ValidationException;
 import ru.practicum.user.storage.UserRepository;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class CommentsService {
@@ -39,6 +40,6 @@ public class CommentsService {
                 .findAll()
                 .stream()
                 .filter(c->c.getItem().getId() == itemId)
-                .toList();
+                .collect(Collectors.toList());
     }
 }
