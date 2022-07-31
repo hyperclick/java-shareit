@@ -37,7 +37,7 @@ public class BookingService {
         }
         return
                 bookingRepository.saveAndFlush(
-                        BookingMapper.toModel(
+                        BookingMapper.createNewModel(
                                 dto,
                                 userRepository.getReferenceById(bookerId),
                                 item));
@@ -146,4 +146,6 @@ public class BookingService {
                 .filter(b -> b.getStartDateTime().isBefore(LocalDateTime.now()))
                 .collect(Collectors.toList());
     }
+
+
 }

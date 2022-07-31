@@ -1,12 +1,17 @@
 package ru.practicum.booking.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.booking.BookingMapper;
 import ru.practicum.booking.BookingService;
 import ru.practicum.booking.dto.BookingDto;
+import ru.practicum.booking.dto.Status;
+import ru.practicum.exception.InternalServerErrorException;
+import ru.practicum.exception.ValidationException;
 import ru.practicum.item.ItemMapper;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -36,19 +41,58 @@ public class BookingController {
     }
 
     @GetMapping
-    private Collection<BookingDto> get(@RequestHeader("X-Sharer-User-Id") int bookerId) {
+    private Collection<BookingDto> get(@RequestParam(defaultValue = "ALL", name = "state") String statusString, @RequestHeader("X-Sharer-User-Id") int bookerId) {
+        var status = Status.ALL;
+        try {
+            status = Status.valueOf(statusString);
+        }
+        catch (IllegalArgumentException ex){
+            throw new InternalServerErrorException("Unknown state: " + statusString);
+        }
+        Status finalStatus = status;
         var r = bookingService.getAllByBooker(bookerId)
                 .stream()
                 .map(x -> BookingMapper.toDto(x, itemMapper))
+                .filter(x -> filterByStatus(x, finalStatus))
                 .collect(Collectors.toList());
         return r;
     }
 
+    private boolean filterByStatus(BookingDto x, Status status) {
+        if (status == Status.ALL) {
+            return true;
+        }
+        if (status == Status.APPROVED || status == Status.REJECTED || status == Status.WAITING) {
+            return x.getStatus() == status;
+        }
+
+        if (status == Status.PAST) {
+            return x.getEndDateTime().isBefore(LocalDateTime.now());
+        }
+        if (status == Status.FUTURE) {
+            return x.getStartDateTime().isAfter(LocalDateTime.now());
+        }
+        if (status == Status.CURRENT) {
+            return x.getEndDateTime().isAfter(LocalDateTime.now()) && x.getStartDateTime().isBefore(LocalDateTime.now());
+        }
+
+        throw new ValidationException(HttpStatus.INTERNAL_SERVER_ERROR, "unexpected status");
+    }
+
     @GetMapping("/owner")
-    private Collection<BookingDto> getByOwner(@RequestHeader("X-Sharer-User-Id") int ownerId) {
+    private Collection<BookingDto> getByOwner(@RequestParam(defaultValue = "ALL", name = "state") String statusString, @RequestHeader("X-Sharer-User-Id") int ownerId) {
+        var status = Status.ALL;
+        try {
+            status = Status.valueOf(statusString);
+        }
+        catch (IllegalArgumentException ex){
+            throw new InternalServerErrorException("Unknown state: " + statusString);
+        }
+        Status finalStatus = status;
         var r = bookingService.getAllByOwner(ownerId)
                 .stream()
                 .map(x -> BookingMapper.toDto(x, itemMapper))
+                .filter(x -> filterByStatus(x, finalStatus))
                 .collect(Collectors.toList());
         return r;
     }

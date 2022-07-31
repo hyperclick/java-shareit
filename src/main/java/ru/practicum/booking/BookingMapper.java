@@ -12,18 +12,20 @@ import ru.practicum.user.model.User;
  * // TODO .
  */
 public class BookingMapper {
-    public static Booking toModel(BookingDto dto, User booker, Item item) {
+    public static Booking createNewModel(BookingDto dto, User booker, Item item) {
         var model = new Booking();
         model.setBooker(booker);
         model.setItem(item);
-        model.setApproved(dto.getStatus() == Status.APPROVED);
-        model.setCanceled(dto.getStatus() == Status.CANCELED);
         model.setStartDateTime(dto.getStartDateTime());
         model.setEndDateTime(dto.getEndDateTime());
-        if (dto.getStatus() == Status.REJECTED) {
-            model.setApproved(true);
-            model.setCanceled(true);
-        }
+        model.setApproved(false);
+        model.setCanceled(false);
+//        model.setApproved(dto.getStatus() == Status.APPROVED);
+//        model.setCanceled(dto.getStatus() == Status.CANCELED);
+//        if (dto.getStatus() == Status.REJECTED) {
+//            model.setApproved(true);
+//            model.setCanceled(true);
+//        }
         return model;
     }
 

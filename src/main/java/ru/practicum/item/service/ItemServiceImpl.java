@@ -10,6 +10,7 @@ import ru.practicum.item.storage.ItemRepository;
 import ru.practicum.user.model.User;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,8 @@ public class ItemServiceImpl implements ItemService {
                 .findAll()
                 .stream()
                 .filter(i -> i.getOwner().getId() == userId)
-                .map(i -> itemMapper.toItemDto(i))
+                .sorted(Comparator.comparingInt(Item::getId))
+                .map(itemMapper::toItemDto)
                 .collect(Collectors.toList());
     }
 
