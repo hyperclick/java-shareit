@@ -45,8 +45,7 @@ public class BookingController {
         var status = Status.ALL;
         try {
             status = Status.valueOf(statusString);
-        }
-        catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             throw new InternalServerErrorException("Unknown state: " + statusString);
         }
         Status finalStatus = status;
@@ -84,8 +83,7 @@ public class BookingController {
         var status = Status.ALL;
         try {
             status = Status.valueOf(statusString);
-        }
-        catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             throw new InternalServerErrorException("Unknown state: " + statusString);
         }
         Status finalStatus = status;
